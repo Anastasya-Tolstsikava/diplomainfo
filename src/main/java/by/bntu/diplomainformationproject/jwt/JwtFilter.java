@@ -27,7 +27,7 @@ public class JwtFilter extends GenericFilterBean {
     @Autowired
     private JwtProvider jwtProvider;
 
-    @Qualifier("studentServiceImpl")
+    @Qualifier("logInServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
 

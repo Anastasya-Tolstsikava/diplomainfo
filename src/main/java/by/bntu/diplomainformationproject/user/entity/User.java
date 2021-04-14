@@ -1,10 +1,17 @@
 package by.bntu.diplomainformationproject.user.entity;
 
-import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.SequenceGenerator;
 import java.time.LocalDateTime;
 
 @Entity
@@ -23,7 +30,7 @@ public abstract class User {
 
     private String email;
 
-    private Boolean isConfirmedEmail = false;
+    private Boolean isConfirmed = false;
 
     private String password;
 

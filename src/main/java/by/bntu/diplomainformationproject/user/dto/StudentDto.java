@@ -1,5 +1,6 @@
 package by.bntu.diplomainformationproject.user.dto;
 
+
 import by.bntu.diplomainformationproject.user.annotation.UniqueEmail;
 import by.bntu.diplomainformationproject.user.entity.Role;
 import by.bntu.diplomainformationproject.user.entity.Teacher;
@@ -9,7 +10,21 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-import static by.bntu.diplomainformationproject.util.Constants.*;
+import static by.bntu.diplomainformationproject.util.Constants.EMAIL_PATTERN_MSG;
+import static by.bntu.diplomainformationproject.util.Constants.NAME_MAX_SIZE;
+import static by.bntu.diplomainformationproject.util.Constants.NAME_MIN_SIZE;
+import static by.bntu.diplomainformationproject.util.Constants.NAME_PATTERN_MSG;
+import static by.bntu.diplomainformationproject.util.Constants.NAME_SIZE_MSG;
+import static by.bntu.diplomainformationproject.util.Constants.NOT_NULL_OR_EMPTY_MSG;
+import static by.bntu.diplomainformationproject.util.Constants.PASSWORD_MAX_SIZE;
+import static by.bntu.diplomainformationproject.util.Constants.PASSWORD_MIN_SIZE;
+import static by.bntu.diplomainformationproject.util.Constants.PASSWORD_PATTERN_MSG;
+import static by.bntu.diplomainformationproject.util.Constants.PASSWORD_SIZE_MSG;
+import static by.bntu.diplomainformationproject.util.Constants.REGEX_FOR_EMAIL;
+import static by.bntu.diplomainformationproject.util.Constants.REGEX_FOR_NAME;
+import static by.bntu.diplomainformationproject.util.Constants.REGEX_FOR_PASSWORD;
+import static by.bntu.diplomainformationproject.util.Constants.UNIQUE_EMAIL_MSG;
+
 
 @Data
 public class StudentDto {

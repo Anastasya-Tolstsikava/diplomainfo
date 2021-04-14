@@ -1,8 +1,12 @@
 package by.bntu.diplomainformationproject.user.service.impl;
 
 import by.bntu.diplomainformationproject.service.exception.EntryIsNotFoundException;
+import by.bntu.diplomainformationproject.user.dto.IdDto;
 import by.bntu.diplomainformationproject.user.dto.TeacherDto;
 import by.bntu.diplomainformationproject.user.dto.mapper.TeacherMapper;
+import by.bntu.diplomainformationproject.user.entity.Student;
+import by.bntu.diplomainformationproject.user.entity.Teacher;
+import by.bntu.diplomainformationproject.user.repository.StudentRepository;
 import by.bntu.diplomainformationproject.user.repository.TeacherRepository;
 import by.bntu.diplomainformationproject.user.service.TeacherService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +27,8 @@ public class TeacherServiceImpl implements TeacherService {
 
     private final TeacherRepository teacherRepository;
 
+    private final StudentRepository studentRepository;
+
     private final TeacherMapper teacherMapper;
 
     private final PasswordEncoder passwordEncoder;
@@ -30,8 +36,9 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public TeacherDto findById(Long id) {
         return teacherMapper
-                .entityToDto(teacherRepository.findById(id).orElseThrow(() ->
-                        new EntryIsNotFoundException(String.format(ENTRY_IS_NOT_FOUND_MSG, id))));
+            .entityToDto(teacherRepository.findById(id).orElseThrow(() ->
+                                                                        new EntryIsNotFoundException(String.format(
+                                                                            ENTRY_IS_NOT_FOUND_MSG, id))));
     }
 
     @Transactional
@@ -41,7 +48,7 @@ public class TeacherServiceImpl implements TeacherService {
             teacherDto.setPassword(passwordEncoder.encode(teacherDto.getPassword()));
         }
         teacherDto = teacherMapper
-                .entityToDto(teacherRepository.save(teacherMapper.dtoToEntity(teacherDto)));
+            .entityToDto(teacherRepository.save(teacherMapper.dtoToEntity(teacherDto)));
         log.debug("Teacher {} was created", teacherDto);
         return teacherDto;
     }
@@ -50,7 +57,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public TeacherDto update(TeacherDto teacherDto) {
         teacherDto = teacherMapper
-                .entityToDto(teacherRepository.save(teacherMapper.dtoToEntity(teacherDto)));
+            .entityToDto(teacherRepository.save(teacherMapper.dtoToEntity(teacherDto)));
         log.debug("Teacher {} was updated", teacherDto);
         return teacherDto;
     }
@@ -69,11 +76,27 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public List<TeacherDto> findAll() {
         return teacherRepository.findAll()
-                .stream().map(teacherMapper::entityToDto).collect(Collectors.toList());
+                                .stream().map(teacherMapper::entityToDto).collect(Collectors.toList());
     }
 
     @Override
     public boolean existsByEmail(String email) {
         return teacherRepository.existsByEmail(email);
+    }
+
+    @Override
+    public void confirmStudent(IdDto idDto) {
+        Student student = studentRepository.findById((long)idDto.getId())
+                                           .orElseThrow(() -> new EntryIsNotFoundException(ENTRY_IS_NOT_FOUND_MSG));
+        student.setIsConfirmed(true);
+        studentRepository.save(student);
+    }
+
+    @Override
+    public void confirmTeacher(IdDto idDto) {
+        Teacher teacher = teacherRepository.findById((long)idDto.getId())
+                                           .orElseThrow(() -> new EntryIsNotFoundException(ENTRY_IS_NOT_FOUND_MSG));
+        teacher.setIsConfirmed(true);
+        teacherRepository.save(teacher);
     }
 }

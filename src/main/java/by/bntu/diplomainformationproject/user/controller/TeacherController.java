@@ -1,5 +1,6 @@
 package by.bntu.diplomainformationproject.user.controller;
 
+import by.bntu.diplomainformationproject.user.dto.IdDto;
 import by.bntu.diplomainformationproject.user.dto.TeacherDto;
 import by.bntu.diplomainformationproject.user.service.TeacherService;
 import lombok.RequiredArgsConstructor;
@@ -40,5 +41,17 @@ public class TeacherController {
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteById(@PathVariable Long id) {
         teacherService.deleteById(id);
+    }
+
+    @PostMapping("/student-confirmation")
+    @PreAuthorize("hasRole('TEACHER') || hasRole('ADMIN')")
+    public void confirmStudent(@Valid @RequestBody IdDto idDto){
+        teacherService.confirmStudent(idDto);
+    }
+
+    @PostMapping("/teacher-confirmation")
+    @PreAuthorize("hasRole('TEACHER') || hasRole('ADMIN')")
+    public void confirmTeacher(@Valid @RequestBody IdDto idDto){
+        teacherService.confirmTeacher(idDto);
     }
 }
