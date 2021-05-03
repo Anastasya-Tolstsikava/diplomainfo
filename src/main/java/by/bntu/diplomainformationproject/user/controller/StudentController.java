@@ -26,6 +26,13 @@ public class StudentController {
         return ResponseEntity.ok(newStudentDto);
     }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<StudentDto> update(@Valid @RequestBody StudentDto studentDto) {
+        StudentDto newStudentDto = studentService.update(studentDto);
+        return ResponseEntity.ok(newStudentDto);
+    }
+
     @GetMapping
     public ResponseEntity<List<StudentDto>> findAll() {
         List<StudentDto> allStudents = studentService.findAll();

@@ -44,7 +44,7 @@ public class TeacherController {
     }
 
     @PostMapping("/student-confirmation")
-    @PreAuthorize("hasRole('TEACHER') || hasRole('ADMIN')")
+    @PreAuthorize("hasRole('TEACHER')")
     public void confirmStudent(@Valid @RequestBody IdDto idDto){
         teacherService.confirmStudent(idDto);
     }

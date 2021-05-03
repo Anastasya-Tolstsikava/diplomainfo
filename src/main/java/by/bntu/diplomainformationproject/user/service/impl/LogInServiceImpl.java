@@ -97,7 +97,7 @@ public class LogInServiceImpl implements LogInService, UserDetailsService {
 
     private Set<SimpleGrantedAuthority> getAuthority(User user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getValue()));
         return authorities;
     }
 }
