@@ -3,6 +3,8 @@ package by.bntu.diplomainformationproject.util;
 public class Constants {
     public static final String ENTRY_IS_NOT_FOUND_MSG = "User with id = %d not found";
     public static final String USER_WITH_EMAIL_NOT_FOUND_MSG = "User with email = %s not found";
+    public static final String FILE_IS_NOT_FOUND_MSG = "File is not found";
+
 
     public static final String INCORRECT_PASSWORD_MSG = "Incorrect login or password";
     public static final String IS_NOT_CONFIRMED_EMAIL = "You can't use this method. Confirm your email";
