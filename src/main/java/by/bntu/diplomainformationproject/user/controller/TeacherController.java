@@ -1,7 +1,9 @@
 package by.bntu.diplomainformationproject.user.controller;
 
 import by.bntu.diplomainformationproject.user.dto.IdDto;
+import by.bntu.diplomainformationproject.user.dto.StudentDto;
 import by.bntu.diplomainformationproject.user.dto.TeacherDto;
+import by.bntu.diplomainformationproject.user.entity.Student;
 import by.bntu.diplomainformationproject.user.service.TeacherService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,27 @@ public class TeacherController {
         return ResponseEntity.ok(newTeacherDto);
     }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<TeacherDto> update(@RequestBody TeacherDto teacherDto) {
+        TeacherDto newTeacherDto = teacherService.update(teacherDto);
+        return ResponseEntity.ok(newTeacherDto);
+    }
+
+    @PostMapping("/addStudents")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<?> addStudents(@RequestBody List<StudentDto> studentDtos) {
+        teacherService.addStudents(studentDtos);
+        return ResponseEntity.ok("OK");
+    }
+
+    @PostMapping("/deleteStudents")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<StudentDto> deleteFromMyStudents(@RequestBody StudentDto studentDto) {
+        teacherService.deleteFromMyStudents(studentDto);
+        return ResponseEntity.ok(studentDto);
+    }
+
     @GetMapping
     public ResponseEntity<List<TeacherDto>> findAll() {
         List<TeacherDto> allTeachers = teacherService.findAll();
@@ -37,10 +60,22 @@ public class TeacherController {
         return ResponseEntity.ok(teacherDto);
     }
 
+    @GetMapping("/my-students")
+    @PreAuthorize("hasRole('TEACHER')")
+    public ResponseEntity<List<StudentDto>> findMyStudents() {
+        return ResponseEntity.ok(teacherService.findMyStudents());
+    }
+
     @DeleteMapping("{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('TEACHER')")
     public void deleteById(@PathVariable Long id) {
         teacherService.deleteById(id);
+    }
+
+    @PostMapping("/mail")
+    @PreAuthorize("hasRole('TEACHER')")
+    public void sendMessage(@RequestBody String message){
+        teacherService.sendMessage(message);
     }
 
     @PostMapping("/student-confirmation")

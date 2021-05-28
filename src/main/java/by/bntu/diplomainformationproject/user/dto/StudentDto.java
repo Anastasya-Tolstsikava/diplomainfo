@@ -50,6 +50,10 @@ public class StudentDto {
     @Size(min = PASSWORD_MIN_SIZE, max = PASSWORD_MAX_SIZE, message = PASSWORD_SIZE_MSG)
     private String password;
 
+    private int group;
+
+    private Boolean isConfirmed;
+
     // @Builder.Default
     private Role role = Role.STUDENT;
 

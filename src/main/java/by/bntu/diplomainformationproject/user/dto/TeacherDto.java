@@ -49,8 +49,9 @@ public class TeacherDto {
 
     @Pattern(regexp = REGEX_FOR_PASSWORD, message = PASSWORD_PATTERN_MSG)
     @Size(min = PASSWORD_MIN_SIZE, max = PASSWORD_MAX_SIZE, message = PASSWORD_SIZE_MSG)
-    private String password
-        ;
+    private String password;
+
+    private Boolean isConfirmed;
 
    // @Builder.Default
     private Role role = Role.TEACHER;

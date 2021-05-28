@@ -6,10 +6,14 @@ import by.bntu.diplomainformationproject.user.dto.TeacherDto;
 import by.bntu.diplomainformationproject.user.dto.mapper.StudentMapper;
 import by.bntu.diplomainformationproject.user.dto.mapper.TeacherMapper;
 import by.bntu.diplomainformationproject.user.entity.Student;
+import by.bntu.diplomainformationproject.user.entity.Teacher;
 import by.bntu.diplomainformationproject.user.repository.StudentRepository;
+import by.bntu.diplomainformationproject.user.repository.TeacherRepository;
 import by.bntu.diplomainformationproject.user.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +30,8 @@ import static by.bntu.diplomainformationproject.util.Constants.USER_WITH_EMAIL_N
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
+
+    private final TeacherRepository teacherRepository;
 
     private final StudentMapper studentMapper;
 
@@ -47,8 +53,10 @@ public class StudentServiceImpl implements StudentService {
         if (studentDto.getPassword() != null) {
             studentDto.setPassword(passwordEncoder.encode(studentDto.getPassword()));
         }
-        studentDto = studentMapper
-            .entityToDto(studentRepository.save(studentMapper.dtoToEntity(studentDto)));
+        Student entity = studentMapper.dtoToEntity(studentDto);
+        entity.setIsConfirmed(false);
+        Student student = studentRepository.save(entity);
+        studentDto = studentMapper.entityToDto(student);
         log.debug("Student {} was created", studentDto);
         return studentDto;
     }
@@ -56,6 +64,12 @@ public class StudentServiceImpl implements StudentService {
     @Transactional
     @Override
     public StudentDto update(StudentDto studentDto) {
+        if (studentDto.getTeacher() == null) {
+            User details = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String teacherEmail = details.getUsername();
+            Teacher teacher = teacherRepository.findByEmail(teacherEmail).orElse(null);
+            studentDto.setTeacher(teacher);
+        }
         studentDto = studentMapper
             .entityToDto(studentRepository.save(studentMapper.dtoToEntity(studentDto)));
         log.debug("Student {} was updated", studentDto);
@@ -96,4 +110,11 @@ public class StudentServiceImpl implements StudentService {
                                                                         USER_WITH_EMAIL_NOT_FOUND_MSG, email)));
     }
 
+//    @Override
+//    public StudentDto addTeacher(StudentDto studentDto) {
+//        User details = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        String teacherEmail = details.getUsername();
+//
+//        studentRepository.
+//    }
 }

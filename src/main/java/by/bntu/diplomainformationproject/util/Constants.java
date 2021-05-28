@@ -34,6 +34,9 @@ public class Constants {
     public static final String AUTHORIZATION = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer ";
 
+    //email
+    public static final String EMAIL_SUBJECT = "Diploma info";
+
     private Constants() {
         throw new IllegalStateException("Utility class");
     }

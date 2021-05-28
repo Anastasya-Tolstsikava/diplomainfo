@@ -28,10 +28,17 @@ public class StudentController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<StudentDto> update(@Valid @RequestBody StudentDto studentDto) {
+    public ResponseEntity<StudentDto> update(@RequestBody StudentDto studentDto) {
         StudentDto newStudentDto = studentService.update(studentDto);
         return ResponseEntity.ok(newStudentDto);
     }
+
+//    @PostMapping("/teacher")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<StudentDto> addTeacher(@Valid @RequestBody StudentDto studentDto) {
+//        StudentDto newStudentDto = studentService.addTeacher(studentDto);
+//        return ResponseEntity.ok(newStudentDto);
+//    }
 
     @GetMapping
     public ResponseEntity<List<StudentDto>> findAll() {
@@ -52,7 +59,7 @@ public class StudentController {
     }
 
     @DeleteMapping("{id}")
-   // @PreAuthorize("hasRole('ADMIN')")
+    // @PreAuthorize("hasRole('ADMIN')")
     public void deleteById(@PathVariable Long id) {
         studentService.deleteById(id);
     }

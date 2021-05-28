@@ -15,4 +15,5 @@ public interface StudentService extends Service<StudentDto, Long> {
 
     boolean existsByEmail(String email);
 
+    //StudentDto addTeacher(StudentDto studentDto);
 }

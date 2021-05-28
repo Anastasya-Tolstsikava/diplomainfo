@@ -3,6 +3,12 @@ spring:
     hibernate:
       ddl-auto: update
     database-platform: org.hibernate.dialect.MySQL8Dialect
+  mail:
+    host: smtp.gmail.com
+    username: dealerstat0@gmail.com
+    password: 159357123As
+    port: 587
+    protocol: smtp
 
   datasource:
     username: root

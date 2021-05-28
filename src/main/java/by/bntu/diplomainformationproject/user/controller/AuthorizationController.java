@@ -32,7 +32,7 @@ public class AuthorizationController {
     }
 
     @GetMapping("/details")
-    public ResponseEntity getUserDetails() {
+    public ResponseEntity<User> getUserDetails() {
         SecurityContext context = SecurityContextHolder.getContext();
         try {
             Authentication authentication = context.getAuthentication();
